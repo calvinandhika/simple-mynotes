@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:developer' as devtools show log;
 
 import 'package:flutter_bloc_vandad/constants/routes.dart';
+import 'package:flutter_bloc_vandad/utilities/show_error_dialog.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -69,21 +70,26 @@ class _LoginViewState extends State<LoginView> {
                 );
               } on FirebaseAuthException catch (e) {
                 // throw Exception(e);
-                late final String errorMessage;
                 if (e.code == 'user-not-found') {
-                  errorMessage = 'User not found';
+                  await showErrorDialog(
+                    context,
+                    'User not found',
+                  );
                 } else if (e.code == 'wrong-password') {
-                  errorMessage = 'Wrong Password';
+                  await showErrorDialog(
+                    context,
+                    'Wrong password',
+                  );
                 } else {
-                  errorMessage = e.toString();
+                  await showErrorDialog(
+                    context,
+                    'Error: ${e.code}',
+                  );
                 }
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      errorMessage,
-                    ),
-                  ),
+              } catch (e) {
+                await showErrorDialog(
+                  context,
+                  e.toString(),
                 );
               }
             },
