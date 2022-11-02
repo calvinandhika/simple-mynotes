@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_vandad/constants/routes.dart';
 import 'package:flutter_bloc_vandad/firebase_options.dart';
+import 'package:flutter_bloc_vandad/utilities/show_error_dialog.dart';
+import 'dart:developer' as devtools show log;
 
 class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
@@ -57,26 +59,43 @@ class _RegisterViewState extends State<RegisterView> {
               final password = _password.text;
 
               try {
-                final userCredentials = await FirebaseAuth.instance
-                    .createUserWithEmailAndPassword(
-                        email: email, password: password);
-              } on FirebaseAuthException catch (e) {
-                // throw Exception(e);
-                late final String errorMessage;
-                if (e.code == 'weak-password') {
-                  errorMessage = 'Weak Password';
-                } else if (e.code == 'wrong-password') {
-                  errorMessage = 'Wrong Password';
-                } else {
-                  errorMessage = e.toString();
-                }
+                final userCredentials =
+                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                  email: email,
+                  password: password,
+                );
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      errorMessage,
-                    ),
-                  ),
+                await userCredentials.user?.sendEmailVerification();
+
+                // final user = FirebaseAuth.instance.currentUser;
+
+                Navigator.pushNamed(context, verifyEmailRoute);
+              } on FirebaseAuthException catch (e) {
+                if (e.code == 'weak-password') {
+                  await showErrorDialog(
+                    context,
+                    'Weak Password',
+                  );
+                } else if (e.code == 'email-already-in-use') {
+                  await showErrorDialog(
+                    context,
+                    'Email is already in use',
+                  );
+                } else if (e.code == 'invalid-email') {
+                  await showErrorDialog(
+                    context,
+                    'This is an invalid email address',
+                  );
+                } else {
+                  await showErrorDialog(
+                    context,
+                    'Error ${e.code}',
+                  );
+                }
+              } catch (e) {
+                await showErrorDialog(
+                  context,
+                  e.toString(),
                 );
               }
             },
