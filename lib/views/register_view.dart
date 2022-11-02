@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc_vandad/constants/routes.dart';
 import 'package:flutter_bloc_vandad/firebase_options.dart';
 
 class RegisterView extends StatefulWidget {
@@ -85,7 +86,7 @@ class _RegisterViewState extends State<RegisterView> {
             onPressed: () {
               Navigator.pushNamedAndRemoveUntil(
                 context,
-                '/login/',
+                loginRoute,
                 (route) => false,
               );
             },
