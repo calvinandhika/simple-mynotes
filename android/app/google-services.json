@@ -29,6 +29,13 @@
             {
               "client_id": "698225445781-32n3rn9030af6ifo35h3pn4ka8i923n5.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "698225445781-jo50h726kaeu0uca5lkc3e609cv33p9e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.calvinandhika.simpleMynotes"
+              }
             }
           ]
         }

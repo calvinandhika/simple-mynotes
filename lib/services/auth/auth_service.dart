@@ -1,7 +1,6 @@
 import 'package:flutter_bloc_vandad/services/auth/auth_user.dart';
 
 import 'package:flutter_bloc_vandad/services/auth/auth_provider.dart';
-import 'package:flutter_bloc_vandad/services/auth/auth_exceptions.dart';
 import 'package:flutter_bloc_vandad/services/auth/firebase_auth_provider.dart';
 
 class AuthService implements AuthProvider {
