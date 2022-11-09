@@ -12,6 +12,7 @@ import 'package:flutter_bloc_vandad/services/auth/firebase_auth_provider.dart';
 import 'package:flutter_bloc_vandad/services/bloc/auth_bloc.dart';
 import 'package:flutter_bloc_vandad/services/bloc/auth_event.dart';
 import 'package:flutter_bloc_vandad/services/bloc/auth_state.dart';
+import 'package:flutter_bloc_vandad/views/forgot_password_view.dart';
 import 'package:flutter_bloc_vandad/views/login_view.dart';
 import 'package:flutter_bloc_vandad/views/notes/create_update_note_view.dart';
 import 'package:flutter_bloc_vandad/views/notes/notes_view.dart';
@@ -51,6 +52,8 @@ class HomePage extends StatelessWidget {
             context: context,
             text: state.loadingText ?? 'Please wait a moment.',
           );
+        } else {
+          LoadingScreen().hide();
         }
       },
       builder: (context, state) {
@@ -60,6 +63,8 @@ class HomePage extends StatelessWidget {
           return const VerifyEmailView();
         } else if (state is AuthStateLoggedOut) {
           return const LoginView();
+        } else if (state is AuthStateForgotPassword) {
+          return const ForgotPasswordView();
         } else if (state is AuthStateRegistering) {
           return const RegisterView();
         } else {
